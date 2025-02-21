@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a415ca365c47242905ead35be9762e, type: 3}
+  m_Name: New Potion info
+  m_EditorClassIdentifier: 
+  name: Love Potion
+  effect: Encapsulates those who touch it in passion and desire.
+  sprite: {fileID: 21300000, guid: 74d12e3ff6a91de4bab1d81d756f356b, type: 3}
+  backgroundColor: {r: 0.74509805, g: 0.54901963, b: 0.75294125, a: 1}
