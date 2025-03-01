@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.ShaderGraph.Internal;
 using Unity.VisualScripting;
 public class BumpPlatform : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class BumpPlatform : MonoBehaviour
        
         if (performAction)
         {
-            Debug.Log($"Collision Enter");
             StartCoroutine(Move());
             performAction = false;
         }

@@ -1,19 +1,24 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class ResetScene : MonoBehaviour
 {
     [SerializeField] Transform[] interactableObjects;
+    [SerializeField] GameObject speachBubble;
     Vector3[] positions;
     Vector3[] eulerAngles;
 
+    GameObject player;
     PlayerController pc;
-
+    Vector3 playerStartPos;
     int i = 0;
 
     void Start()
     {
-        pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        pc = player.GetComponent<PlayerController>();
+        playerStartPos = player.transform.position;
         positions = new Vector3[interactableObjects.Length];
         eulerAngles = new Vector3[interactableObjects.Length];
 
@@ -28,7 +33,9 @@ public class ResetScene : MonoBehaviour
     // Update is called once per frame
     public void Restart()
     {
-        pc.startCoroutine = true;
+        player.transform.position = playerStartPos;
+
+        
 
         for (int j = 0; j < interactableObjects.Length; j++)
         {
@@ -55,5 +62,18 @@ public class ResetScene : MonoBehaviour
             }
 
         }
+
+        StartCoroutine(ActivateSpeachBubble());
+
+        
+
+    }
+
+    IEnumerator ActivateSpeachBubble()
+    {
+        speachBubble.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        pc.startCoroutine = true;
+        speachBubble.SetActive(false);
     }
 }

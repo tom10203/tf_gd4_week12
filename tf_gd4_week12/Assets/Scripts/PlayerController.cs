@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int verticalRayCount = 3;
     [SerializeField] int horizontalRayCount = 3;
     [SerializeField] float jumpAmount;
+    [SerializeField] GameObject restartLevel;
 
     BoxCollider2D boxCollider;
     BoxColliderBounds colliderBounds;
@@ -21,6 +22,12 @@ public class PlayerController : MonoBehaviour
     public bool startCoroutine = true;
 
     PlayerAnimations animator;
+    ResetScene resetScene;
+
+    [SerializeField] AudioSource walking;
+    [SerializeField] AudioSource dead;
+
+    public bool playwalking = true;
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -28,6 +35,8 @@ public class PlayerController : MonoBehaviour
         CalculateRaySpacing();
 
         animator = GetComponent<PlayerAnimations>();
+
+        resetScene = restartLevel.GetComponent<ResetScene>();
     }
     void FixedUpdate()
     {
@@ -42,13 +51,10 @@ public class PlayerController : MonoBehaviour
             velocity.x = horizontalInput * moveSpeed * Time.fixedDeltaTime;
         }
         else
-        {
-
+        { 
             velocity.x = 0f;
-
         }
-
-
+      
         if (velocity.x != 0f)
         {
             CheckHorizontalCollisions();
@@ -56,6 +62,22 @@ public class PlayerController : MonoBehaviour
         if (velocity.y != 0f)
         {
             CheckVerticalCollisions();
+        }
+
+
+        if (velocity.x != 0 && isGrounded)
+        {
+            Debug.Log($"velocity.x != 0 && isGrounded");
+            if (playwalking)
+            {
+                walking.Play();
+                playwalking = false;
+            }
+        }
+        else
+        {
+            walking.Stop();
+            playwalking = true;
         }
 
         transform.Translate(velocity, Space.World);
@@ -130,6 +152,7 @@ public class PlayerController : MonoBehaviour
                     if (startCoroutine)
                     {
                         Debug.Log($"TakeDamage call");
+                        dead.Play();
                         animator.TakeDamage();
                         startCoroutine = false;
                     }
@@ -180,5 +203,9 @@ public class PlayerController : MonoBehaviour
         verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
     }
 
+    public void Restart()
+    {
+        resetScene.Restart();
+    }
 
 }
